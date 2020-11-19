@@ -1,5 +1,8 @@
+# MSBD5001 Group Project
+## Project Description
 https://www.kaggle.com/c/ieee-fraud-detection
-# MSBD5001GroupProject
+
+## Development Phases
 The phases of development as following:
 1. Data Analysis
 2. Data Cleansing
@@ -21,7 +24,7 @@ The phases of development as following:
 7. Fine-tuning
     1. Model Parameters Tuning
 
-# Get training-ready data
+## Get training-ready data
 To get feature engineered data, please use the below code (assuming you are working under the /src directory):
 
 
