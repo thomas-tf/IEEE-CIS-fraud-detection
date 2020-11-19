@@ -24,7 +24,7 @@ The phases of development as following:
 7. Fine-tuning
     1. Model Parameters Tuning
 
-## Get training-ready data
+## Get Feature Engineered Data
 To get feature engineered data, please use the below code (assuming you are working under the /src directory):
 
 
@@ -34,8 +34,8 @@ from features_generation import feature_engineering
 X_train, y_train, X_test, sample_submission = feature_engineering()
 ```
 
-Note that `feature_engineering()` does not include the following preprocessing:
+Note that `feature_engineering()` does NOT include the following preprocessing:
 1. numerical feature scaling
 2. fill NaNs
 
-If you model requires such techniques, please implement by yourself.
+If your model requires such techniques, please implement them by yourself.
