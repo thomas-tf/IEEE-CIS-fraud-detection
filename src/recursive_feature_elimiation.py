@@ -8,6 +8,12 @@ from sklearn.preprocessing import LabelEncoder
 
 
 def reduce_mem_usage(df, verbose=True):
+    """
+    reduce memory usage by casting datatype to lower bits
+    :param df:
+    :param verbose:
+    :return df:
+    """
     numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
     start_mem = df.memory_usage().sum() / 1024**2
     for col in df.columns:
@@ -58,7 +64,12 @@ def label_encoding(df):
 
 
 def recursive_feature_elimination(train, from_backup=True):
-
+    """
+    conduct recursive feature elimination on the given training dataset
+    :param train: training dataset
+    :param from_backup: load from historical result (stored as list of strings), defaults to True
+    :return top ranked features:
+    """
     # defaults to return backup list
     if from_backup:
         return ['TransactionAmt', 'ProductCD', 'card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'addr1', 'addr2', 'dist1',

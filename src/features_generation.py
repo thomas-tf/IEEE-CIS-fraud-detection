@@ -8,16 +8,12 @@ from recursive_feature_elimiation import recursive_feature_elimination
 DATA_DIRECTORY = '../input'
 
 
-def rename_test_identity_columns(df):
-    for col in df.columns:
-        if col[0:2] == 'id':
-            new_col_name = col.split('-')[0] + '_' + col.split('-')[1]
-            df = df.rename(columns={col: new_col_name})
-
-    return df
-
-
 def id_split(df):
+    """
+    Split or convert some identifiable features in subsets
+    :param df:
+    :return df:
+    """
     df['device_name'] = df['DeviceInfo'].str.split('/', expand=True)[0]
     df['device_version'] = df['DeviceInfo'].str.split('/', expand=True)[1]
 
@@ -70,6 +66,19 @@ def merge_transaction_and_identify(transaction, identity):
 
 
 def email_mappings(train, test):
+    """
+    group email domains to company
+    yahoo / ymail / frontier / rocketmail -> Yahoo
+    hotmail / outlook / live / msn -> Microsoft
+    icloud / mac / me -> Appe
+    prodigy / att / sbcglobal-> AT&T
+    centurylink / embarqmail / q -> Centurylink
+    aim / aol -> AOL
+    twc / charter -> Spectrum
+    :param train:
+    :param test:
+    :return train, test:
+    """
     emails = {'gmail': 'google', 'att.net': 'att', 'twc.com': 'spectrum', 'scranton.edu': 'other',
               'optonline.net': 'other', 'hotmail.co.uk': 'microsoft', 'comcast.net': 'other', 'yahoo.com.mx': 'yahoo',
               'yahoo.fr': 'yahoo', 'yahoo.es': 'yahoo', 'charter.net': 'spectrum', 'live.com': 'microsoft',
@@ -102,6 +111,12 @@ def email_mappings(train, test):
 
 
 def transaction_amt_features(train, test):
+    """
+    generate features on base on transaction amount
+    :param train:
+    :param test:
+    :return train, test:
+    """
     # log transformation
     train['TransactionAmt_Log'] = np.log(train['TransactionAmt'])
     test['TransactionAmt_Log'] = np.log(test['TransactionAmt'])
@@ -115,6 +130,15 @@ def transaction_amt_features(train, test):
 
 
 def drop_useless_columns(train, test):
+    """
+    drop columns if:
+    - only 1 category
+    - More than 90% of the values are NaN
+    - More than 90% of the values are the same
+    :param train:
+    :param test:
+    :return train, test:
+    """
     one_value_cols = [col for col in train.columns if train[col].nunique() <= 1]
     one_value_cols_test = [col for col in test.columns if test[col].nunique() <= 1]
 
@@ -135,6 +159,7 @@ def drop_useless_columns(train, test):
         one_value_cols_test
     ))
 
+    # exclude target
     cols_to_drop.remove('isFraud')
 
     train = train.drop(cols_to_drop, axis=1)
@@ -144,6 +169,12 @@ def drop_useless_columns(train, test):
 
 
 def top_features_aggregation(train, test):
+    """
+    aggregate top ranked features (by RFE)
+    :param train:
+    :param test:
+    :return train, test:
+    """
     columns_a = ['TransactionAmt', 'id_02', 'D15']
     columns_b = ['card1', 'card4', 'addr1']
 
@@ -157,6 +188,12 @@ def top_features_aggregation(train, test):
 
 
 def label_encoding(train, test):
+    """
+    Label encode categorical columns
+    :param train:
+    :param test:
+    :return:
+    """
     for col in train.columns:
         if train[col].dtype == 'object':
             le = LabelEncoder()
@@ -167,15 +204,22 @@ def label_encoding(train, test):
     return train, test
 
 
-# reference: https://www.kaggle.com/dimartinot
 def clean_inf_nan(df):
+    """
+    replace infs to nan
+    reference: https://www.kaggle.com/dimartinot
+    :param df:
+    :return df:
+    """
     return df.replace([np.inf, -np.inf], np.nan)
 
 
 def feature_engineering():
+    """
+    load original datasets and conduct feature engineering
+    :return X_train, y_train, X_test, submission:
+    """
     train_identity, train_transaction, test_identity, test_transaction, submission = load_data(DATA_DIRECTORY)
-
-    test_identity = rename_test_identity_columns(test_identity)
 
     train_identity = id_split(train_identity)
     test_identity = id_split(test_identity)
