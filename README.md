@@ -22,7 +22,7 @@ The phases of development as following:
 7.1. Model Parameters Tuning
 
 # Get training-ready data
-To get feature engineered data, please use the below code:
+To get feature engineered data, please use the below code (assuming you are working under the /src directory):
 
 
 ```python
