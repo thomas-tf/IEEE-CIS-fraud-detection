@@ -30,3 +30,9 @@ from features_generation import feature_engineering
 
 X_train, y_train, X_test, sample_submission = feature_engineering()
 ```
+
+Note that `feature_engineering()` does not include the following preprocessing:
+1. numerical feature scaling
+2. fill NaNs
+
+If you model requires such techniques, please implement by yourself.
