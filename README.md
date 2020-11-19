@@ -25,6 +25,11 @@ The phases of development as following:
     1. Model Parameters Tuning
 
 ## Get Feature Engineered Data
+Install the required packages for feature engineering by the command:
+```python
+pip install -r requirements.txt
+```
+
 To get feature engineered data, please use the below code (assuming you are working under the /src directory):
 
 
