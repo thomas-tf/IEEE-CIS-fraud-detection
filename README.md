@@ -20,3 +20,13 @@ The phases of development as following:
 6.3. F1-Score
 7. Fine-tuning
 7.1. Model Parameters Tuning
+
+# Get training-ready data
+To get feature engineered data, please use the below code:
+
+
+```python
+from features_generation import feature_engineering
+
+X_train, y_train, X_test, sample_submission = feature_engineering()
+```
