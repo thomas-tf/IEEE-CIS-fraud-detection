@@ -26,5 +26,6 @@ The phases of development as following:
 
 ```bash
 DOCKER_BUILDKIT=1 docker build -t lab .
-docker run --rm -it -v $PWD:/workdir -w /workdir lab bash
+docker run --rm -it -v $PWD:/workdir -w /workdir -p 20080:8888 lab bash
+jupyter-lab --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root
 ```

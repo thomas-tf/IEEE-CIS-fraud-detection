@@ -4,3 +4,7 @@ tqdm
 opencv-python
 scikit-learn
 jupyterlab
+matplotlib
+seaborn
+xgboost
+torch
